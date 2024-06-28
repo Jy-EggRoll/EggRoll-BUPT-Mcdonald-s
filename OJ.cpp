@@ -6,38 +6,38 @@
 #define NUMFOOD 200
 #define NUMCOMBO 200
 
-int system_status = 1;//ÏµÍ³×´Ì¬£º0.¹Ø±Õ£»1.¿ª·Å
+int system_status = 1;//ç³»ç»ŸçŠ¶æ€ï¼š0.å…³é—­ï¼›1.å¼€æ”¾
 
-//?ÎïµÄ½á¹¹
+//é£Ÿç‰©çš„ç»“æ„
 typedef struct
 {
-    char name[STRLEN];//?ÎïµÄÃû×Ö
-    int time;//ÖÆ×÷ËùĞèÒªµÄÊ±¼ä
-    int max;//×î?´æ´¢ÈİÁ¿
-    int capnow;//µ±Ç°´¢Á¿
-    int time_not_finished;//ÕıÔÚÖÆ×÷µÄ?ÎïÒÑ¾­?ÁË¶à?Ê±¼ä
+    char name[STRLEN];//é£Ÿç‰©çš„åå­—
+    int time;//åˆ¶ä½œæ‰€éœ€è¦çš„æ—¶é—´
+    int max;//æœ€å¤§å­˜å‚¨å®¹é‡
+    int capnow;//å½“å‰å‚¨é‡
+    int time_not_finished;//æ­£åœ¨åˆ¶ä½œçš„é£Ÿç‰©å·²ç»ç»è¿‡äº†å¤šé•¿æ—¶é—´
 } Food;
 
-//Ì×²ÍµÄ½á¹¹
+//å¥—é¤çš„ç»“æ„
 typedef struct
 {
-    char name[STRLEN];//Ì×²ÍµÄÃû×Ö
-    int food_count;//?ÎïµÄÊıÁ¿
-    Food* food[6];//Ö¸Ïò?Îï½á¹¹Ìå
-    int time_food_need[6];//¼ÇÂ¼×öÍêĞèÒªµÄÊ±¼ä£¬´æµ½¶ÔÓ¦ĞòºÅ
+    char name[STRLEN];//å¥—é¤çš„åå­—
+    int food_count;//é£Ÿç‰©çš„æ•°é‡
+    Food* food[6];//æŒ‡å‘é£Ÿç‰©ç»“æ„ä½“
+    int time_food_need[6];//è®°å½•åšå®Œéœ€è¦çš„æ—¶é—´ï¼Œå­˜åˆ°å¯¹åº”åºå·
 } Combo;
 
-//¶©µ¥µÄ½á¹¹
+//è®¢å•çš„ç»“æ„
 typedef struct
 {
-    char name[STRLEN];//¶©µ¥µÄÃû×Ö
-    int what;//ÕâÊÇÒ»¸öÊ³Îï»¹ÊÇÒ»¸öÌ×²Í£º1.Ê³Îï£»2.Ì×²Í
+    char name[STRLEN];//è®¢å•çš„åå­—
+    int what;//è¿™æ˜¯ä¸€ä¸ªé£Ÿç‰©è¿˜æ˜¯ä¸€ä¸ªå¥—é¤ï¼š1.é£Ÿç‰©ï¼›2.å¥—é¤
     Food* pfood;
     Combo* pcombo;
-    long sec_time;//¶©µ¥µÄÃëÊıÊ±¼ä
-    int check_food[NUMFOOD];//ÅĞ¶ÏÌ×²ÍÖĞ¶ÔÓ¦±àºÅµÄ?ÎïÊÇ·ñÒÑ¾­Íê³É£º0.Î´Íê³É£»1.ÒÑÍê³É
-    int status;//¶©µ¥µÄ×´Ì¬£º0.ÔÚ¶ÓÁĞÖĞ£»1.³É¹¦£»2.Ê§°Ü
-    char* finish_time;//Íê³ÉµÄÊ±¼ä
+    long sec_time;//è®¢å•çš„ç§’æ•°æ—¶é—´
+    int check_food[NUMFOOD];//åˆ¤æ–­å¥—é¤ä¸­å¯¹åº”ç¼–å·çš„?ç‰©æ˜¯å¦å·²ç»å®Œæˆï¼š0.æœªå®Œæˆï¼›1.å·²å®Œæˆ
+    int status;//è®¢å•çš„çŠ¶æ€ï¼š0.åœ¨é˜Ÿåˆ—ä¸­ï¼›1.æˆåŠŸï¼›2.å¤±è´¥
+    char* finish_time;//å®Œæˆçš„æ—¶é—´
 } Order;
 
 int check_this_is_a_combo(const char* str, Combo* combos, int number_of_combo);
@@ -57,14 +57,14 @@ int main(void)
     file = fopen("dict.dic", "r");
     if (file == NULL)
     {
-        printf("ÎŞ·¨´ò¿ªÎÄ¼ş\n");
+        printf("æ— æ³•æ‰“å¼€æ–‡ä»¶\n");
         return 1;
     }
-    // ¶ÁÈ¡µÚÒ»ĞĞ
+    // è¯»å–ç¬¬ä¸€è¡Œ
     fscanf(file, "%d %d\n", &number_of_food, &number_of_combo);
-    // ¶ÁÈ¡µÚ¶şĞĞ
+    // è¯»å–ç¬¬äºŒè¡Œ
     fgets(buffer, sizeof(buffer), file);
-    // Ê¹ÓÃstrtok·Ö¸ôÃ¿¸öÊ³Îï²¢´æ´¢µ½½á¹¹ÌåÊı×éÖĞ
+    // ä½¿ç”¨strtokåˆ†éš”æ¯ä¸ªé£Ÿç‰©å¹¶å­˜å‚¨åˆ°ç»“æ„ä½“æ•°ç»„ä¸­
     char* food_name = strtok(buffer, " ");
     int num_foods = 0;
     while (food_name != NULL)
@@ -94,7 +94,7 @@ int main(void)
         int num_combos = 0;
         if (fgets(buffer, sizeof(buffer), file) == NULL)
         {
-            break;//´¦ÀíÎÄ¼ş¶ÁÈ¡½áÊø»ò´íÎó
+            break;//å¤„ç†æ–‡ä»¶è¯»å–ç»“æŸæˆ–é”™è¯¯
         }
         char* name = strtok(buffer, " ");
         while (name != NULL)
@@ -145,13 +145,13 @@ int main(void)
     Order* orders = (Order*)calloc(number_of_order, sizeof(Order));
     if (orders == NULL)
     {
-        printf("Ê§°Ü\n");
+        printf("å¤±è´¥\n");
         exit(1);
     }
     int* count_unfinish_second = (int*)calloc(number_of_order, sizeof(int));
     if (count_unfinish_second == NULL)
     {
-        printf("Ê§°Ü\n");
+        printf("å¤±è´¥\n");
         exit(1);
     }
     long save_time = 0;
